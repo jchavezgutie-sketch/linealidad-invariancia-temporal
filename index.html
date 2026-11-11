@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#081225">
+  <title>Linealidad e Invariancia Temporal | Trabajo 2</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/dist/reveal.css">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+      chtml: { fontURL: './assets/mathjax/woff-v2' },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+    };
+  </script>
+  <!-- MathJax está dentro del proyecto: las fórmulas no dependen de internet. -->
+  <script defer src="assets/mathjax/tex-chtml.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- 01 | PORTADA -->
+      <section class="slide-cover" data-background-color="#081225">
+        <div class="topline"><span class="dot"></span> TRABAJO 2 · SEÑALES Y SISTEMAS</div>
+        <div class="cover-grid">
+          <div>
+            <div class="eyebrow">CLASIFICACIÓN DE SISTEMAS</div>
+            <h1>Linealidad e<br><em>Invariancia Temporal</em></h1>
+            <p class="lead">Dos propiedades que permiten determinar cómo responde un sistema a la combinación y al desplazamiento de señales.</p>
+            <div class="cover-detail">Ingeniería de Telecomunicaciones <span>·</span> Grupo 7</div>
+          </div>
+          <div class="hero-plot"><canvas id="heroCanvas" width="700" height="430" aria-label="Dos señales de diferente amplitud"></canvas><div class="hero-caption">EJEMPLO: SEÑALES DE ENTRADA Y SALIDA</div></div>
+        </div>
+        <div class="footerline">Universidad Nacional de San Agustín de Arequipa <span>Flechas ← → para navegar</span></div>
+      </section>
+
+      <!-- 02 | DEFINICIÓN -->
+      <section>
+        <div class="kicker">01 · FUNDAMENTOS</div>
+        <h2>¿Qué entendemos por sistema?</h2>
+        <p class="subhead">Un sistema recibe una señal y, mediante una regla, produce otra.</p>
+        <div class="signal-flow">
+          <div class="flow-node"><span>ENTRADA</span><strong>\(x(t)\)</strong><small>Señal que se aplica</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-system"><small>SISTEMA</small><strong>\(T\{\cdot\}\)</strong><small>Operación sobre la entrada</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node"><span>SALIDA</span><strong>\(y(t)\)</strong><small>Resultado de la operación</small></div>
+        </div>
+        <div class="example-bar"><b>Ejemplo:</b> si el sistema duplica la amplitud, entonces \(T\{x(t)\}=2x(t)\).</div>
+        <div class="mini-grid smaller-gap">
+          <div class="note"><b>Linealidad</b><p>¿Se conserva el resultado al sumar o multiplicar señales por constantes?</p></div>
+          <div class="note"><b>Invariancia temporal</b><p>¿La respuesta es la misma si aplicamos la señal unos segundos después?</p></div>
+        </div>
+      </section>
+
+      <!-- 03 | LINEALIDAD -->
+      <section>
+        <div class="kicker">02 · LINEALIDAD</div>
+        <h2>Principio de superposición</h2>
+        <p class="subhead">Un sistema es lineal cuando cumple simultáneamente aditividad y homogeneidad.</p>
+        <div class="equation big-equation">\[T\{a x_1(t)+b x_2(t)\}=a\,T\{x_1(t)\}+b\,T\{x_2(t)\}\]</div>
+        <div class="mini-grid">
+          <div class="concept"><div class="concept-number">01 · ADITIVIDAD</div><h3>La suma se conserva</h3><div class="equation">\[T\{x_1+x_2\}=T\{x_1\}+T\{x_2\}\]</div><p>Procesar la suma da el mismo resultado que procesar cada entrada y sumar las salidas.</p></div>
+          <div class="concept"><div class="concept-number">02 · HOMOGENEIDAD</div><h3>El factor se conserva</h3><div class="equation">\[T\{a x\}=a\,T\{x\}\]</div><p>Multiplicar la entrada por una constante equivale a multiplicar la salida por esa constante.</p></div>
+        </div>
+        <p class="small-print">La condición debe cumplirse para cualquier par de señales y cualesquiera constantes a y b.</p>
+      </section>
+
+      <!-- 04 | DEMOSTRACIÓN LINEAL -->
+      <section>
+        <div class="kicker">03 · EJEMPLO RESUELTO</div>
+        <h2>¿Por qué \(y(t)=2x(t)\) es lineal?</h2>
+        <p class="subhead">Definimos el sistema como \(T\{x(t)\}=2x(t)\) y aplicamos una combinación de señales.</p>
+        <div class="equation-stack">
+          <div class="step"><span>1</span><div><small>Combinamos las entradas</small><div class="equation">\[T\{a x_1+b x_2\}=2(a x_1+b x_2)\]</div></div></div>
+          <div class="step"><span>2</span><div><small>Distribuimos el factor 2</small><div class="equation">\[=a(2x_1)+b(2x_2)\]</div></div></div>
+          <div class="step"><span>3</span><div><small>Identificamos cada salida</small><div class="equation">\[=a\,T\{x_1\}+b\,T\{x_2\}\]</div></div></div>
+        </div>
+        <div class="takeaway">Como la igualdad se cumple para cualquier entrada y constantes, <b>el sistema es lineal</b>.</div>
+      </section>
+
+      <!-- 05 | GRÁFICAS DE ENTRADA / SALIDA -->
+      <section>
+        <div class="kicker">04 · COMPARACIÓN VISUAL</div>
+        <h2>Una misma entrada, dos sistemas</h2>
+        <p class="subhead">Modifica la amplitud de \(x(t)=A\mathrm{sen}(2\pi t)\) y compara las salidas.</p>
+        <div class="controlbar">
+          <label>Amplitud \(A\): <output id="ampVal">1.0</output><input id="amplitude" type="range" min="0.2" max="2" step="0.1" value="1" aria-label="Amplitud de entrada"></label>
+          <div class="button-group"><button class="choice is-selected" data-system="linear">\(y(t)=2x(t)\)</button><button class="choice" data-system="square">\(y(t)=x^2(t)\)</button></div>
+        </div>
+        <div class="chart-grid"><div class="chart-card"><div class="chart-title"><i class="legend cyan"></i> Entrada \(x(t)\)</div><canvas id="inputCanvas" width="700" height="350"></canvas></div><div class="chart-card"><div class="chart-title"><i class="legend amber"></i> Salida \(y(t)\)</div><canvas id="outputCanvas" width="700" height="350"></canvas></div></div>
+        <div class="resultline"><span id="systemType" class="result-ok">Sistema lineal</span><span id="systemExplanation">Duplicar la amplitud conserva la superposición.</span></div>
+        <p class="small-print">Observar las formas de las ondas ayuda a interpretarlas; para clasificar un sistema necesitamos comprobar las propiedades.</p>
+      </section>
+
+      <!-- 06 | LABORATORIO DE SUPERPOSICIÓN -->
+      <section>
+        <div class="kicker">05 · PRUEBA INTERACTIVA</div>
+        <h2>¿Qué ocurre al combinar dos señales?</h2>
+        <p class="subhead">Comparamos el resultado de procesar la suma con la suma de las salidas.</p>
+        <div class="controlbar compact"><label>\(a\) = <output id="aVal">1.0</output><input id="coefA" type="range" min="-2" max="2" step="0.2" value="1"></label><label>\(b\) = <output id="bVal">1.0</output><input id="coefB" type="range" min="-2" max="2" step="0.2" value="1"></label><div class="button-group"><button class="superchoice is-selected" data-kind="linear">\(2x\)</button><button class="superchoice" data-kind="square">\(x^2\)</button></div></div>
+        <div class="chart-card chart-wide"><div class="chart-title"><i class="legend cyan"></i> \(T\{ax_1+bx_2\}\) <i class="legend amber"></i> \(aT\{x_1\}+bT\{x_2\}\)</div><canvas id="superCanvas" width="1100" height="360"></canvas></div>
+        <div id="superFeedback" class="feedback good">Las curvas coinciden con el sistema lineal.</div>
+        <p class="small-print">Entradas: \(x_1(t)=\mathrm{sen}(2\pi\cdot 0.75t)\), \(x_2(t)=0.8\cos(2\pi\cdot 1.2t)\). Prueba con valores negativos de a y b.</p>
+      </section>
+
+      <!-- 07 | CONTRAEJEMPLO -->
+      <section>
+        <div class="kicker">06 · SISTEMA NO LINEAL</div>
+        <h2>¿Por qué \(y(t)=x^2(t)\) no es lineal?</h2>
+        <p class="subhead">Basta encontrar un caso en el que falle la aditividad.</p>
+        <div class="equation-stack">
+          <div class="step"><span>1</span><div><small>Aplicamos el sistema a una suma</small><div class="equation">\[T\{x_1+x_2\}=(x_1+x_2)^2\]</div></div></div>
+          <div class="step"><span>2</span><div><small>Desarrollamos el cuadrado</small><div class="equation">\[=x_1^2+2x_1x_2+x_2^2\]</div></div></div>
+          <div class="step"><span>3</span><div><small>Procesamos por separado</small><div class="equation">\[T\{x_1\}+T\{x_2\}=x_1^2+x_2^2\]</div></div></div>
+        </div>
+        <div class="takeaway">El término \(2x_1x_2\) impide que las expresiones sean iguales en general. <b>Por eso no es lineal.</b></div>
+        <p class="small-print">Contraejemplo numérico: si \(x_1=x_2=1\), entonces \(T\{1+1\}=4\), pero \(T\{1\}+T\{1\}=2\).</p>
+      </section>
+
+      <!-- 08 | TRASLACIÓN -->
+      <section>
+        <div class="kicker">07 · DESPLAZAMIENTO TEMPORAL</div>
+        <h2>Retrasar una señal no cambia su forma</h2>
+        <p class="subhead">El cambio de \(x(t)\) a \(x(t-\tau)\) mueve la señal \(\tau\) segundos hacia la derecha.</p>
+        <div class="controlbar"><label>Retraso \(\tau\) = <output id="shiftVal">0.70</output> s<input id="shift" type="range" min="0" max="1.5" step="0.05" value="0.7"></label><button id="animateShift">▶ Animar desplazamiento</button><button id="resetShift" class="button-secondary">Reiniciar</button></div>
+        <div class="chart-card chart-wide"><div class="chart-title"><i class="legend cyan"></i> Original \(x(t)\) <i class="legend amber"></i> Retrasada \(x(t-\tau)\)</div><canvas id="shiftCanvas" width="1100" height="410"></canvas></div>
+        <div class="equation big-equation shift-equation">\[x(t-\tau),\quad \tau>0\;:\quad \text{desplazamiento hacia la derecha}\]</div>
+      </section>
+
+      <!-- 09 | REGLA DE INVARIANCIA -->
+      <section>
+        <div class="kicker">08 · INVARIANCIA TEMPORAL</div>
+        <h2>¿Depende el sistema del instante?</h2>
+        <p class="subhead">Un sistema es invariante si retrasar la entrada antes o después de procesarla da la misma salida.</p>
+        <div class="equation big-equation">\[\boxed{T\{x(t-\tau)\}=y(t-\tau)}\]</div>
+        <div class="mini-grid">
+          <div class="route"><div class="route-head">CAMINO A</div><div class="flow-small">Retrasar la entrada <span>→</span> aplicar el sistema</div><div class="equation">\[T\{x(t-\tau)\}\]</div></div>
+          <div class="route"><div class="route-head">CAMINO B</div><div class="flow-small">Aplicar el sistema <span>→</span> retrasar la salida</div><div class="equation">\[y(t-\tau)\]</div></div>
+        </div>
+        <div class="takeaway">La igualdad debe cumplirse para toda entrada \(x(t)\) y todo desplazamiento \(\tau\), no solo para un gráfico.</div>
+      </section>
+
+      <!-- 10 | LABORATORIO DE INVARIANCIA -->
+      <section>
+        <div class="kicker">09 · PRUEBA INTERACTIVA</div>
+        <h2>Dos caminos, ¿una misma respuesta?</h2>
+        <p class="subhead">Elige el sistema y modifica el retraso. Si ambas curvas coinciden, los caminos dan la misma salida.</p>
+        <div class="controlbar compact"><label>Retraso \(\tau\) = <output id="delayVal">0.70</output> s<input id="delay" type="range" min="0.1" max="1.3" step="0.05" value="0.7"></label><div class="button-group"><button class="timechoice is-selected" data-time="invariant">\(y(t)=2x(t)\)</button><button class="timechoice" data-time="variant">\(y(t)=t\,x(t)\)</button></div></div>
+        <div class="chart-card chart-wide"><div class="chart-title"><i class="legend cyan"></i> Camino A: \(T\{x(t-\tau)\}\) <i class="legend amber"></i> Camino B: \(y(t-\tau)\)</div><canvas id="timeCanvas" width="1100" height="370"></canvas></div>
+        <div id="timeFeedback" class="feedback good">Las curvas coinciden: sistema invariante.</div>
+        <p class="small-print">El efecto depende de la regla del sistema, no de que la entrada tenga una forma particular.</p>
+      </section>
+
+      <!-- 11 | COMPROBACIÓN DE VARIANCIA -->
+      <section>
+        <div class="kicker">10 · COMPROBACIÓN ALGEBRAICA</div>
+        <h2>¿Por qué \(y(t)=t\,x(t)\) es variante?</h2>
+        <p class="subhead">En este sistema, la salida depende explícitamente del instante t.</p>
+        <div class="mini-grid formulas-grid">
+          <div class="route"><div class="route-head">CAMINO A · RETRASAR ANTES</div><p>Aplicamos el sistema a la señal retrasada.</p><div class="equation">\[T\{x(t-\tau)\}=t\,x(t-\tau)\]</div></div>
+          <div class="route"><div class="route-head">CAMINO B · RETRASAR DESPUÉS</div><p>Retrasamos la salida obtenida.</p><div class="equation">\[y(t-\tau)=(t-\tau)x(t-\tau)\]</div></div>
+        </div>
+        <div class="equation big-equation">\[\text{Diferencia}=\tau\,x(t-\tau)\]</div>
+        <div class="takeaway">Con \(\tau\neq0\) y una entrada no nula, la diferencia puede ser distinta de cero. <b>Es un sistema variante en el tiempo.</b></div>
+      </section>
+
+      <!-- 12 | MATRIZ DE CLASIFICACIÓN -->
+      <section>
+        <div class="kicker">11 · CLASIFICACIÓN COMBINADA</div>
+        <h2>Las propiedades son independientes</h2>
+        <p class="subhead">Ser lineal no implica ser invariante, y viceversa.</p>
+        <div class="matrix">
+          <div class="matrix-head"></div><div class="matrix-head">Invariante en el tiempo</div><div class="matrix-head">Variante en el tiempo</div>
+          <div class="matrix-label">Lineal</div><div class="matrix-cell positive"><b>\(y(t)=2x(t)\)</b><span>Conserva ambas propiedades</span></div><div class="matrix-cell"><b>\(y(t)=t\,x(t)\)</b><span>Lineal, depende del instante</span></div>
+          <div class="matrix-label">No lineal</div><div class="matrix-cell"><b>\(y(t)=x^2(t)\)</b><span>No lineal, no depende del instante</span></div><div class="matrix-cell"><b>\(y(t)=t\,x^2(t)\)</b><span>No cumple ninguna de las dos</span></div>
+        </div>
+        <div class="takeaway">Los sistemas <b>lineales e invariantes en el tiempo</b> se denominan <b>LTI</b> (en español, SLIT): una clase central en Señales y Sistemas.</div>
+      </section>
+
+      <!-- 13 | ACTIVIDAD -->
+      <section>
+        <div class="kicker">12 · ACTIVIDAD</div>
+        <h2>Identifica las dos propiedades</h2>
+        <p class="subhead center">Clasifica el sistema \(y(t)=x(t-1)\).</p>
+        <div class="quiz-grid">
+          <button class="quiz-answer" data-correct="true">Lineal e invariante</button>
+          <button class="quiz-answer" data-correct="false">Lineal y variante</button>
+          <button class="quiz-answer" data-correct="false">No lineal e invariante</button>
+          <button class="quiz-answer" data-correct="false">No lineal y variante</button>
+        </div>
+        <div id="quizFeedback" class="quiz-feedback">Selecciona una respuesta para comprobarla.</div>
+        <div class="quiz-reason" id="quizReason" aria-live="polite"></div>
+      </section>
+
+      <!-- 14 | CIERRE -->
+      <section class="slide-end">
+        <div class="kicker">13 · CONCLUSIONES</div>
+        <h2>Dos criterios para clasificar un sistema</h2>
+        <div class="mini-grid">
+          <div class="final-card"><div class="concept-number">01 · LINEALIDAD</div><h3>La combinación de señales se conserva</h3><div class="equation">\[T\{ax_1+bx_2\}=aT\{x_1\}+bT\{x_2\}\]</div><p>Se comprueba con aditividad y homogeneidad.</p></div>
+          <div class="final-card"><div class="concept-number">02 · INVARIANCIA TEMPORAL</div><h3>El resultado no depende del momento de aplicación</h3><div class="equation">\[T\{x(t-\tau)\}=y(t-\tau)\]</div><p>Se comparan los dos órdenes: retrasar y procesar.</p></div>
+        </div>
+        <div class="closing">Preguntas</div>
+        <p class="small-print">Grupo 7 · Ingeniería de Telecomunicaciones · UNSA</p>
+        <p class="small-print">Base teórica: A. V. Oppenheim, A. S. Willsky y S. H. Nawab, <i>Señales y sistemas</i>.</p>
+      </section>
+
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/dist/reveal.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
